@@ -1,0 +1,154 @@
+---
+import '@/styles/global.css';
+import Nav from '@/components/Nav.astro';
+import Drawer from '@/components/Drawer.astro';
+import { SITE } from '@/config/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = SITE.defaultDescription,
+  ogImage = SITE.ogImage,
+  ogType = 'website',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const ogImageUrl = new URL(ogImage, SITE.url).href;
+
+// 構造化データ（Organization）
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  alternateName: SITE.shortName,
+  url: SITE.url,
+  logo: new URL('/apple-touch-icon.png', SITE.url).href,
+  foundingDate: SITE.founded,
+  areaServed: SITE.area,
+  description: SITE.defaultDescription,
+  sameAs: [
+    'https://www.instagram.com/shizuokashutterbugs/',
+    'https://x.com/shizu_bug',
+    'https://note.com/shizu_bug',
+    'https://www.youtube.com/channel/UCPBH8mqdLoyK7lOUq9F4EEg',
+  ],
+};
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- favicon / touch icon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- OGP -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content={SITE.locale} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={SITE.twitter} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&family=Bebas+Neue&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome (ブランド/UIアイコン) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+
+    <script is:inline>
+      // JS有効を示すクラス（fade-upのフォールバック制御用）
+      document.documentElement.classList.remove('no-js');
+    </script>
+  </head>
+  <body class="no-js">
+    <Nav />
+    <Drawer />
+    <slot />
+
+    <script>
+      // ── ドロワー開閉 ──
+      const hamburger = document.getElementById('hamburger');
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('drawer-overlay');
+
+      function closeDrawer() {
+        drawer?.classList.remove('open');
+        overlay?.classList.remove('open');
+        hamburger?.classList.remove('open');
+      }
+
+      hamburger?.addEventListener('click', () => {
+        const isOpen = drawer?.classList.toggle('open');
+        overlay?.classList.toggle('open', isOpen);
+        hamburger?.classList.toggle('open', isOpen);
+      });
+      overlay?.addEventListener('click', closeDrawer);
+
+      // ── ABOUTアコーディオン ──
+      document.querySelectorAll<HTMLButtonElement>('.nav-about-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+        });
+      });
+
+      // ── ナビ影 ──
+      const nav = document.getElementById('main-nav');
+      window.addEventListener('scroll', () => {
+        if (nav) {
+          nav.style.boxShadow =
+            window.scrollY > 20 ? '0 2px 20px rgba(44,36,22,0.08)' : 'none';
+        }
+      });
+
+      // ── fade-up：ビューポートに入ったら表示 ──
+      const fadeEls = document.querySelectorAll('.fade-up');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                obs.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.08 }
+        );
+        fadeEls.forEach((el) => io.observe(el));
+      } else {
+        fadeEls.forEach((el) => el.classList.add('visible'));
+      }
+    </script>
+  </body>
+</html>

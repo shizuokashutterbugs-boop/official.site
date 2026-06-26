@@ -1,0 +1,35 @@
+---
+import { img } from '@/config/site';
+import type { Slide } from '@/data/gallery';
+
+interface Props {
+  slides: Slide[];
+}
+const { slides } = Astro.props as Props;
+---
+<div class="act-gallery">
+  <div class="act-gallery-track">
+    {
+      slides.map((s, i) => (
+        <div class={`act-gallery-slide${i === 0 ? ' active' : ''}`}>
+          <img src={img(s.src)} alt={s.alt} loading="lazy" decoding="async" />
+        </div>
+      ))
+    }
+  </div>
+  <div class="act-gallery-ctrl">
+    <button class="act-gallery-btn" data-ag-prev aria-label="前へ">&#8249;</button>
+    <div class="act-gallery-dots">
+      {
+        slides.map((_, i) => (
+          <button
+            class={`act-gallery-dot${i === 0 ? ' active' : ''}`}
+            data-ag-dot={i}
+            aria-label={`${i + 1}枚目`}
+          />
+        ))
+      }
+    </div>
+    <button class="act-gallery-btn" data-ag-next aria-label="次へ">&#8250;</button>
+  </div>
+</div>

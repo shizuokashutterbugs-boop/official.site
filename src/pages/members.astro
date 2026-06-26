@@ -1,0 +1,48 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { img } from '@/config/site';
+import { members } from '@/data/members';
+
+const title = '運営メンバー｜Shizuoka ShutterBugs（静岡の写真コミュニティ）';
+const description =
+  '静岡の写真コミュニティ「Shizuoka ShutterBugs」の運営メンバー紹介。代表・運営それぞれのSNSもこちらから。';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="page active" id="page-members">
+    <div class="page-header fade-up">
+      <p class="section-label">Members</p>
+      <h1>運営<em>メンバー</em></h1>
+    </div>
+    <div class="members-grid fade-up">
+      {
+        members.map((m) => (
+          <div class="member-card">
+            <div class="member-photo-wrap">
+              <img
+                src={img(m.photo)}
+                alt={m.name}
+                loading="lazy"
+                style="width:100%; height:auto; display:block;"
+              />
+            </div>
+            <div class="member-info">
+              <div class="member-name">{m.name}</div>
+              <div class="member-role">{m.role}</div>
+              <div class="member-sns">
+                <a href={m.instagram} target="_blank" rel="noopener noreferrer" class="sns-ig" aria-label="Instagram">
+                  <i class="fa-brands fa-instagram" />
+                </a>
+                <a href={m.x} target="_blank" rel="noopener noreferrer" class="sns-x" aria-label="X">
+                  <i class="fa-brands fa-x-twitter" />
+                </a>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <Footer />
+  </div>
+</BaseLayout>

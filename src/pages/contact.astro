@@ -1,0 +1,206 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { GOOGLE_FORM_ID, FORM_ENTRY } from '@/config/forms';
+
+const title = 'お問い合わせ｜Shizuoka ShutterBugs（静岡の写真コミュニティ）';
+const description =
+  'お仕事のご依頼・出展依頼など、静岡の写真コミュニティ「Shizuoka ShutterBugs」へのお問い合わせはこちらから。';
+
+// 送信先URLはフロントマターで組み立て、スクリプトには完成したURLのみ渡す
+const googleFormUrl = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="page active" id="page-contact">
+    <div class="page-header fade-up">
+      <p class="section-label">Contact</p>
+      <h1>お問い<em>合わせ</em></h1>
+    </div>
+
+    <div class="contact-grid fade-up">
+      <div class="contact-info">
+        <p>お仕事のご依頼・出展依頼・その他のお問い合わせは右のフォームからお送りください。</p>
+
+        <div style="margin-top:2rem; padding:1.5rem; background:var(--warm-white); border:1px solid var(--stone); border-left:3px solid var(--accent);">
+          <p style="font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); font-weight:500; margin-bottom:0.8rem;">
+            コミュニティへの参加希望
+          </p>
+          <p style="font-size:0.86rem; line-height:2.1; color:#5a4f3e;">
+            メンバー参加を希望される方は、Instagram の公式アカウントへDMにてお問い合わせください。
+          </p>
+          <a
+            href="https://www.instagram.com/ssb_information/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:0.5rem; margin-top:1rem; font-size:0.82rem; font-weight:500; color:var(--ink); text-decoration:none; padding:0.6rem 1rem; background:var(--cream); border:1px solid var(--stone); transition:border-color 0.2s, color 0.2s;"
+          >
+            <i class="fa-brands fa-instagram" style="font-size:1rem;"></i>
+            @ssb_information
+            <span style="font-size:0.7rem; color:var(--sand);">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-group">
+          <label class="form-label" for="f-name">お名前 *</label>
+          <input type="text" id="f-name" class="form-input" placeholder="山田 太郎" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-email">メールアドレス *</label>
+          <input type="email" id="f-email" class="form-input" placeholder="example@gmail.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-instagram">Instagramアカウント</label>
+          <input type="text" id="f-instagram" class="form-input" placeholder="@example" />
+          <p style="font-size:0.7rem; color:var(--bark); margin-top:0.4rem; letter-spacing:0.04em;">※ @からご記入ください</p>
+        </div>
+        <div class="form-group">
+          <span class="form-label">エリア</span>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="carea" value="静岡西部" checked /> 静岡西部</label>
+            <label class="radio-label"><input type="radio" name="carea" value="静岡中部" /> 静岡中部</label>
+            <label class="radio-label"><input type="radio" name="carea" value="静岡東部" /> 静岡東部</label>
+            <label class="radio-label"><input type="radio" name="carea" value="その他" /> その他</label>
+          </div>
+          <input
+            type="text"
+            id="f-area-other"
+            class="form-input"
+            placeholder="エリアをご記入ください"
+            style="display:none; margin-top:0.6rem;"
+          />
+        </div>
+        <div class="form-group">
+          <span class="form-label">お問い合わせ種別</span>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="ctype" value="お仕事依頼" checked /> お仕事依頼</label>
+            <label class="radio-label"><input type="radio" name="ctype" value="出展依頼" /> 出展依頼</label>
+            <label class="radio-label"><input type="radio" name="ctype" value="その他" /> その他</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-message">メッセージ</label>
+          <textarea id="f-message" class="form-textarea" placeholder="お気軽にメッセージをどうぞ"></textarea>
+        </div>
+        <div id="form-result" style="display:none; margin-bottom:1rem; padding:0.9rem 1rem; font-size:0.82rem; letter-spacing:0.05em;"></div>
+        <button class="btn-primary" id="submit-btn" style="width:100%; padding:1rem; font-size:0.82rem;">
+          送信する
+        </button>
+      </div>
+    </div>
+
+    <Footer />
+  </div>
+</BaseLayout>
+
+<script is:inline define:vars={{ googleFormUrl, FORM_ENTRY }}>
+  // エリア「その他」選択時に自由記述欄を表示
+  document.querySelectorAll('input[name="carea"]').forEach((r) => {
+    r.addEventListener('change', () => {
+      const other = document.getElementById('f-area-other');
+      const checked = document.querySelector('input[name="carea"]:checked');
+      if (other) other.style.display = checked && checked.value === 'その他' ? 'block' : 'none';
+    });
+  });
+
+  const submitBtn = document.getElementById('submit-btn');
+  const formResult = document.getElementById('form-result');
+
+  function showResult(success, msg) {
+    if (!formResult) return;
+    formResult.style.display = 'block';
+    formResult.style.background = success ? 'rgba(168,181,160,0.2)' : 'rgba(212,98,42,0.1)';
+    formResult.style.borderLeft = success ? '3px solid var(--mist)' : '3px solid var(--accent)';
+    formResult.style.color = success ? '#4a5e44' : 'var(--accent)';
+    formResult.textContent = msg;
+  }
+
+  function getFormData() {
+    const areaChecked = document.querySelector('input[name="carea"]:checked')?.value || '';
+    const area =
+      areaChecked === 'その他'
+        ? document.getElementById('f-area-other')?.value.trim() || 'その他'
+        : areaChecked;
+    return {
+      name: document.getElementById('f-name').value.trim(),
+      mail: document.getElementById('f-email')?.value.trim() || '',
+      instagram: document.getElementById('f-instagram')?.value.trim() || '',
+      type: document.querySelector('input[name="ctype"]:checked')?.value || '',
+      area,
+      message: document.getElementById('f-message').value.trim(),
+    };
+  }
+
+  function clearForm() {
+    document.getElementById('f-name').value = '';
+    document.getElementById('f-email').value = '';
+    document.getElementById('f-instagram').value = '';
+    const other = document.getElementById('f-area-other');
+    other.value = '';
+    other.style.display = 'none';
+    document.getElementById('f-message').value = '';
+    document.querySelector('input[name="ctype"][value="お仕事依頼"]').checked = true;
+    document.querySelector('input[name="carea"][value="静岡西部"]').checked = true;
+  }
+
+  submitBtn?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const data = getFormData();
+
+    if (!data.name) {
+      showResult(false, '⚠ お名前は必須です。');
+      return;
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!data.mail || !emailPattern.test(data.mail)) {
+      showResult(false, '⚠ 正しいメールアドレスを入力してください。');
+      return;
+    }
+
+    submitBtn.textContent = '送信中...';
+    submitBtn.disabled = true;
+    if (formResult) formResult.style.display = 'none';
+
+    try {
+      const p = new URLSearchParams();
+      p.append(FORM_ENTRY.name, data.name);
+      p.append(FORM_ENTRY.mail, data.mail);
+      p.append(FORM_ENTRY.instagram, data.instagram);
+      p.append(FORM_ENTRY.message, data.message);
+
+      const areaPreset = ['静岡西部', '静岡中部', '静岡東部'];
+      if (areaPreset.includes(data.area)) {
+        p.append(FORM_ENTRY.area, data.area);
+      } else {
+        p.append(FORM_ENTRY.area, '__other_option__');
+        p.append(`${FORM_ENTRY.area}.other_option_response`, data.area);
+      }
+
+      const typePreset = ['お仕事依頼', '出展依頼'];
+      if (typePreset.includes(data.type)) {
+        p.append(FORM_ENTRY.type, data.type);
+      } else {
+        p.append(FORM_ENTRY.type, '__other_option__');
+        p.append(`${FORM_ENTRY.type}.other_option_response`, data.type);
+      }
+
+      await fetch(googleFormUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: p.toString(),
+      });
+
+      showResult(true, '✓ 送信が完了しました。お問い合わせありがとうございます。');
+      clearForm();
+    } catch (err) {
+      console.error('送信エラー詳細:', err);
+      showResult(false, '⚠ 送信に失敗しました：' + err.message);
+    } finally {
+      submitBtn.textContent = '送信する';
+      submitBtn.disabled = false;
+    }
+  });
+</script>
