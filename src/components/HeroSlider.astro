@@ -1,0 +1,101 @@
+---
+import { img } from '@/config/site';
+import { heroSlides } from '@/data/gallery';
+---
+<div class="hero-slider" id="heroSlider">
+  {
+    heroSlides.map((s, i) => (
+      <div class={`slide${i === 0 ? ' active' : ''}`} data-slide={i}>
+        <img
+          src={img(s.src)}
+          alt={s.alt}
+          loading={i === 0 ? 'eager' : 'lazy'}
+          decoding={i === 0 ? 'auto' : 'async'}
+        />
+        <div class="slide-overlay" />
+      </div>
+    ))
+  }
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">静岡写真コミュニティ</p>
+    <h1 class="hero-title">Shizuoka<br /><em>ShutterBugs</em></h1>
+    <p class="hero-desc">
+      静岡で写真を楽しむ人たちが集まる場所。<br />
+      フォトウォーク、写真集会、オンライン交流を通じて<br />
+      仲間と写真の世界を深めていきましょう。
+    </p>
+    <div style="margin-top:2.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+      <a
+        href="https://www.instagram.com/ssb_information/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-primary"
+        style="display:inline-flex; align-items:center; gap:0.5rem; border:1px solid rgba(255,255,255,0.45);"
+      >
+        <i class="fa-brands fa-instagram"></i> メンバー参加はこちら
+      </a>
+      <a
+        href="/works"
+        class="btn-primary"
+        style="background:transparent; color:rgba(255,255,255,0.85); border:1px solid rgba(255,255,255,0.45);"
+      >
+        活動実績を見る →
+      </a>
+    </div>
+  </div>
+
+  <button class="slider-arrow prev" data-hero-prev aria-label="前へ">&#8249;</button>
+  <button class="slider-arrow next" data-hero-next aria-label="次へ">&#8250;</button>
+
+  <div class="slider-dots">
+    {
+      heroSlides.map((_, i) => (
+        <button
+          class={`slider-dot${i === 0 ? ' active' : ''}`}
+          data-hero-dot={i}
+          aria-label={`${i + 1}枚目`}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const root = document.getElementById('heroSlider');
+  if (root) {
+    const slides = Array.from(root.querySelectorAll('.slide'));
+    const dots = Array.from(root.querySelectorAll('.slider-dot'));
+    let current = 0;
+    let timer: ReturnType<typeof setInterval> | null = null;
+
+    function activate(idx: number) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (idx + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+    function startAuto() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(() => activate(current + 1), 5000);
+    }
+
+    root.querySelector('[data-hero-prev]')?.addEventListener('click', () => {
+      activate(current - 1);
+      startAuto();
+    });
+    root.querySelector('[data-hero-next]')?.addEventListener('click', () => {
+      activate(current + 1);
+      startAuto();
+    });
+    dots.forEach((dot, i) =>
+      dot.addEventListener('click', () => {
+        activate(i);
+        startAuto();
+      })
+    );
+
+    startAuto();
+  }
+</script>

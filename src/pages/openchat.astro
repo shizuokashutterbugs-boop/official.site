@@ -1,0 +1,45 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { img } from '@/config/site';
+import { openChatRooms } from '@/data/sns';
+
+const title = 'オープンチャットで交流｜Shizuoka ShutterBugs（静岡の写真コミュニティ）';
+const description =
+  '静岡の写真コミュニティ「Shizuoka ShutterBugs」のLINEオープンチャット。エリア別ルームや会議室・部室など、目的に合わせて気軽に交流できます。';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="page active" id="page-openchat">
+    <div class="page-header fade-up">
+      <p class="section-label">Open Chat</p>
+      <h1>オープンチャットで<em>交流</em></h1>
+    </div>
+
+    <div class="openchat-content fade-up">
+      <p class="openchat-intro">
+        Shizuoka ShutterBugsでは、LINEオープンチャットを使ってメンバー同士が気軽に交流できる場を作っています。参加したい企画や活動範囲に合わせて、お好きなトークルームにご参加ください。<br
+        />
+        ※オールメンバールーム・お住まいのエリアルームは参加必須としています。
+      </p>
+
+      <div class="openchat-list">
+        {
+          openChatRooms.map((room) => (
+            <div class="openchat-item" style={`position:relative; overflow:hidden; background:${room.bg};`}>
+              <div
+                style={`position:absolute; top:0; right:0; width:120px; height:120px; background-image:url('${img(room.tile)}'); background-size:cover; background-position:center; opacity:0.9;`}
+              />
+              <div style="position:relative; max-width:75%;">
+                <h3>{room.title}</h3>
+                <p>{room.body}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <Footer />
+  </div>
+</BaseLayout>

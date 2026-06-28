@@ -1,0 +1,66 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HeroSlider from '@/components/HeroSlider.astro';
+import Footer from '@/components/Footer.astro';
+import { GAS_URL } from '@/config/forms';
+
+const title = 'Shizuoka ShutterBugs｜静岡の写真コミュニティ';
+const description =
+  '静岡で写真を楽しむ人たちが集まる写真コミュニティ「Shizuoka ShutterBugs」。フォトウォーク・写真展・オンライン交流で、静岡のフォトグラファーがエリアを超えてつながります。';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="page active" id="page-home">
+    <HeroSlider />
+
+    <!-- Greeting -->
+    <div class="greeting-section fade-up">
+      <div class="greeting-text">
+        <p class="section-label">Greeting</p>
+        <h2>ようこそ、<em>SSBへ</em></h2>
+        <p>
+          Shizuoka ShutterBugs へようこそ。「写真を楽しむ人たちが集まるシェアハウス」をイメージして生まれたコミュニティです。
+        </p>
+        <p>
+          ゆるやかな繋がりの中で、静岡にゆかりのあるフォトグラファーたちがエリアを超えて交流しています。<br />
+          アマチュアからプロまで。初心者から玄人まで。
+        </p>
+        <p>
+          メンバーひとりひとりがやりたいことを提案し、みんな主体的になって作り上げていく。それが私たちの在り方です。
+        </p>
+      </div>
+      <div class="greeting-visual">
+        <div class="gv-card">
+          <div class="gv-stat-label">メンバー数</div>
+          <div class="gv-num" id="member-count-display">170<sup>+</sup></div>
+          <div class="gv-unit">members</div>
+        </div>
+        <div class="gv-card">
+          <div class="gv-stat-label">設立日</div>
+          <div class="gv-num gv-date">2023<span class="gv-date-sub">.06.01</span></div>
+          <div class="gv-unit">founded</div>
+        </div>
+      </div>
+    </div>
+
+    <Footer />
+  </div>
+</BaseLayout>
+
+<script is:inline define:vars={{ GAS_URL }}>
+  // メンバー数をGoogleスプレッドシート(GAS)から取得して表示。失敗時はHTMLの初期値(170+)を維持。
+  (function loadMemberCount() {
+    const el = document.getElementById('member-count-display');
+    if (!el || !GAS_URL) return;
+    fetch(GAS_URL)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.member_count) {
+          el.innerHTML = data.member_count + '<sup>+</sup>';
+        }
+      })
+      .catch((err) => {
+        console.error('メンバー数取得エラー:', err);
+      });
+  })();
+</script>

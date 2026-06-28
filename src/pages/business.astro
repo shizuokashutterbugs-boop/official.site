@@ -1,0 +1,55 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+
+const title = 'BUSINESS｜Shizuoka ShutterBugs（静岡の写真コミュニティ）';
+const description =
+  '「静岡の地域振興」「写真文化の継続・普及」を目標に、撮影・展示・イベント企画に取り組む静岡の写真コミュニティ「Shizuoka ShutterBugs」。お仕事のご依頼も承ります。';
+
+const visions = [
+  { cls: 'vc1', text: '写真を撮るものにとって<br>安心できる居場所となること' },
+  { cls: 'vc2', text: '写真でやりたいことを<br>実現できる場所になること' },
+  { cls: 'vc3', text: '写真によって助けられることや<br>ニーズがあることに対し、<br>撮影・広報・集客の役割を果たすこと' },
+  { cls: 'vc4', text: '静岡県内の企業・団体と協業・協力し<br>地域振興の一助となること' },
+  { cls: 'vc5', text: '（鑑賞・芸術としての）写真が<br>静岡県内で一般的に普及すること' },
+  { cls: 'vc6', text: '写真の価値を高めること' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="page active" id="page-business">
+    <div class="page-header fade-up">
+      <p class="section-label">Business</p>
+      <h1>BUSINESS</h1>
+    </div>
+
+    <div class="about-section fade-up">
+      <div class="about-inner">
+        <p class="section-label">About</p>
+        <h2>SSBの<em>取り組み</em></h2>
+        <p>
+          Shizuoka ShutterBugsでは、「静岡の地域振興」「写真文化の継続・普及」を目標に、静岡全体を写真を通して盛り上げるため、撮影・展示・イベント企画などを行なっています。（詳細はWORKSをご覧ください）
+        </p>
+        <p>お仕事のご依頼・ご相談は「CONTACT」からご連絡ください。</p>
+      </div>
+    </div>
+
+    <div class="vision-section fade-up">
+      <div class="vision-header">
+        <hr class="vision-rule" />
+        <h2><strong>"SHIZUOKA SHUTTERBUGS"</strong>の目標（VISION）</h2>
+      </div>
+      <div class="vision-grid">
+        {
+          visions.map((v) => (
+            <div class={`vision-card ${v.cls}`}>
+              <p set:html={v.text} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <Footer />
+  </div>
+</BaseLayout>

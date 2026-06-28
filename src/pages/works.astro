@@ -1,0 +1,201 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import WorksGallery from '@/components/WorksGallery.astro';
+import ActGallery from '@/components/ActGallery.astro';
+import {
+  photowalkSlides,
+  fakuhakuSlides,
+  fujiSlides,
+  tenryuSlides,
+  lightingSlides,
+} from '@/data/gallery';
+
+const title = '活動実績（WORKS）｜Shizuoka ShutterBugs（静岡の写真コミュニティ）';
+const description =
+  'SSB写真展、写真雑誌「SHIZU BUG」、フォトウォーク、企業コラボなど、静岡の写真コミュニティ「Shizuoka ShutterBugs」の活動実績を紹介します。';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="page active" id="page-gallery">
+    <div class="page-header fade-up">
+      <p class="section-label">Works</p>
+      <h1>活動<em>実績</em></h1>
+    </div>
+
+    <div class="works-section fade-up">
+      <!-- SSB写真展 -->
+      <div class="exhibition-block">
+        <span class="exhibition-tag">Annual Exhibition</span>
+        <h2>SSB写真展 vol.1〜vol.3</h2>
+        <p>
+          年に1回開催しているSSB公式グループ写真展。初心者の方も安心して展示できるよう、運営・メンバー全員でフォロー・サポート体制を整えています。<br
+          />
+          vol.2からはゲスト写真家の招聘・展示を実施。写真を撮る人たちとの交流を広げるとともに、一般の方への写真表現の魅力を広く伝えることも目的としています。<br
+          />
+          vol.3はPICTORICOによるプリント体験ブース、Nikonによるタッチ＆トライやアンバサダーセミナーを同時開催。写真展という枠組みを飛び出して企画・イベントを展開しました。
+        </p>
+
+        <WorksGallery />
+
+        <div class="exhibition-stats">
+          <div class="stat-card">
+            <div class="stat-label">参加人数</div>
+            <div class="stat-rows">
+              <div class="stat-row">
+                <span class="stat-vol">vol.1</span>
+                <span class="stat-num">12</span><span class="stat-note">名</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-vol">vol.2</span>
+                <span class="stat-num">26</span><span class="stat-note">名（ゲスト写真家2名含む）</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-vol">vol.3</span>
+                <span class="stat-num">35</span><span class="stat-note">名（ゲスト写真家3名含む）</span>
+              </div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">来場者数</div>
+            <div class="stat-rows">
+              <div class="stat-row">
+                <span class="stat-vol">vol.1</span>
+                <span class="stat-num">300</span><span class="stat-note">人超</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-vol">vol.2</span>
+                <span class="stat-num">1,200</span><span class="stat-note">人超 ※A</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-vol">vol.3</span>
+                <span class="stat-num">1,200</span><span class="stat-note">人超 ※B</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.72rem; color:var(--sand); margin-top:0.8rem; margin-bottom:0.2rem;">※A 3ギャラリー延べ人数</p>
+        <p style="font-size:0.72rem; color:var(--sand); margin-top:0; margin-bottom:0;">※B 2ギャラリー延べ人数</p>
+      </div>
+
+      <!-- SHIZU BUG -->
+      <div class="exhibition-block">
+        <span class="exhibition-tag">Publication</span>
+        <h2>写真雑誌 "SHIZU BUG" 刊行</h2>
+        <p>
+          SSBメンバーが企画・取材・編集を手がける写真雑誌 <em>"SHIZU BUG"</em>。写真展と同時に刊行され、現在vol.3まで展開。「写真の面白さを伝えること」「静岡の魅力を伝えること」を目的に、静岡を拠点に活動するフォトグラファーたちが作り上げています。
+        </p>
+      </div>
+
+      <!-- その他活動 -->
+      <div class="activity-list-detail">
+        <div class="activity-detail-item">
+          <div class="activity-detail-head">
+            <div class="activity-icon"><i class="fa-solid fa-camera"></i></div>
+            <h3 class="activity-detail-title">Nikon &amp; FUJIFILMレンタルフォトウォーク</h3>
+          </div>
+          <p class="activity-detail-body">
+            杉山写真材料店協賛企画。参加者一人ひとりにヒアリングし、各個人に合ったレンタルカメラ＆レンズをご用意して静岡駅前をフォトウォーク。県内外から約30名の方が参加。使いたい機材を使えるだけでなく、フォトグラファー同士の交流も深まりました。地域に根ざした企業様との結び付きにも大きな反響をいただきました。
+          </p>
+          <ActGallery slides={photowalkSlides} />
+        </div>
+
+        <div class="activity-detail-item">
+          <div class="activity-detail-head">
+            <div class="activity-icon"><i class="fa-solid fa-industry"></i></div>
+            <h3 class="activity-detail-title">ファクハクコラボ 工場見学 &amp; 撮影会</h3>
+          </div>
+          <p class="activity-detail-body">
+            静岡工場博覧会「ファクハク」とのコラボ企画。本イベント前にSSBメンバーのみで工場見学＆撮影会を実施。撮影した写真はファクハク運営がセレクトし、広告・ポスターなどに使用されました。その様子はYouTubeにも動画を投稿しています。
+          </p>
+          <ActGallery slides={fakuhakuSlides} />
+        </div>
+
+        <div class="activity-detail-item">
+          <div class="activity-detail-head">
+            <div class="activity-icon"><i class="fa-solid fa-store"></i></div>
+            <h3 class="activity-detail-title">富士駅前商店街 保存写真展</h3>
+          </div>
+          <p class="activity-detail-body">
+            2025年5月から富士駅および富士駅前商店街の一部区画が工事で解体。その解体前の姿を残すため、井戸端会議室と協力してSSBフォトウォークを定期開催。2026年には「富士駅前商店街保存写真展（仮）」を富士にて開催予定です。
+          </p>
+          <ActGallery slides={fujiSlides} />
+        </div>
+
+        <div class="activity-detail-item">
+          <div class="activity-detail-head">
+            <div class="activity-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+            <h3 class="activity-detail-title">天竜区フォトウォーク</h3>
+          </div>
+          <p class="activity-detail-body">
+            講師フォトグラファー・モデルと一緒に街を撮り歩く、天竜区役所によるイベント。SSB代表も講師側に招いていただき、撮影技術・スナップについての質疑応答や視点の解説を担当。現在まで2回開催しています。
+          </p>
+          <ActGallery slides={tenryuSlides} />
+        </div>
+
+        <div class="activity-detail-item">
+          <div class="activity-detail-head">
+            <div class="activity-icon"><i class="fa-solid fa-images"></i></div>
+            <h3 class="activity-detail-title">写真家による組写真ワークショップ</h3>
+          </div>
+          <p class="activity-detail-body">
+            写真家 "Kato Shu" さんをお招きし、写真を組むことについてのワークショップ（全2回）を開催。写真家としての視点・思考を学ぶことに特化した企画で、今後も継続開催を予定しています。
+          </p>
+        </div>
+
+        <div class="activity-detail-item">
+          <div class="activity-detail-head">
+            <div class="activity-icon"><i class="fa-solid fa-circle-play"></i></div>
+            <h3 class="activity-detail-title">Nikonアンバサダーセミナー</h3>
+          </div>
+          <p class="activity-detail-body">
+            カメラメーカー「Nikon」ご協力のもと、アンバサダー講師として「もなみん」さんをお招きし、写真の世界観の作り方やカメラの設定などを講演していただきました。2講演累計80名の方がご参加くださいました。
+          </p>
+        </div>
+
+        <div class="activity-detail-item">
+          <div class="activity-detail-head">
+            <div class="activity-icon"><i class="fa-solid fa-print"></i></div>
+            <h3 class="activity-detail-title">PICTORICOプリント紙ワークショップ &amp; プリント体験</h3>
+          </div>
+          <p class="activity-detail-body">
+            プリント用紙ブランド「PICTORICO」によるプリント用紙の使い分け講義を実施。光沢・マット・和紙などによる見え方・印象の違いをレクチャーしていただきました。
+          </p>
+        </div>
+
+        <div class="activity-detail-item">
+          <div class="activity-detail-head">
+            <div class="activity-icon"><i class="fa-solid fa-bolt"></i></div>
+            <h3 class="activity-detail-title">プロカメラマンによるライティングワークショップ</h3>
+          </div>
+          <p class="activity-detail-body">
+            東京でプロとして活動する "RYOHTA MORIKAWA" さんを講師にお招きし、スタジオライティングの基礎から実践まで体験できるワークショップを開催。機材の使い方から光の読み方まで、実技中心の内容で好評を博しました。
+          </p>
+          <ActGallery slides={lightingSlides} />
+        </div>
+      </div>
+    </div>
+
+    <Footer />
+  </div>
+</BaseLayout>
+
+<script>
+  // ページ上の全 .act-gallery を汎用初期化（前後ボタン・ドット）
+  document.querySelectorAll('.act-gallery').forEach((g) => {
+    const slides = Array.from(g.querySelectorAll('.act-gallery-slide'));
+    const dots = Array.from(g.querySelectorAll('.act-gallery-dot'));
+    if (!slides.length) return;
+    let cur = 0;
+    const go = (idx: number) => {
+      slides[cur].classList.remove('active');
+      dots[cur]?.classList.remove('active');
+      cur = (idx + slides.length) % slides.length;
+      slides[cur].classList.add('active');
+      dots[cur]?.classList.add('active');
+    };
+    g.querySelector('[data-ag-prev]')?.addEventListener('click', () => go(cur - 1));
+    g.querySelector('[data-ag-next]')?.addEventListener('click', () => go(cur + 1));
+    dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+  });
+</script>

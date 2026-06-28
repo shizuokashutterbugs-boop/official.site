@@ -1,0 +1,72 @@
+---
+import { img } from '@/config/site';
+import { exhibitionSlides } from '@/data/gallery';
+---
+<div class="works-gallery" id="worksGallery">
+  <div class="works-slides">
+    {
+      exhibitionSlides.map((s, i) => (
+        <div class={`works-slide${i === 0 ? ' works-slide--active' : ''}`} data-wslide={i}>
+          <img
+            src={img(s.src)}
+            alt={s.alt}
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;object-fit:contain;"
+          />
+        </div>
+      ))
+    }
+    <button class="works-arrow works-arrow--prev" data-works-prev aria-label="前へ">&#8249;</button>
+    <button class="works-arrow works-arrow--next" data-works-next aria-label="次へ">&#8250;</button>
+  </div>
+  <div class="works-dots">
+    {
+      exhibitionSlides.map((_, i) => (
+        <button
+          class={`works-dot${i === 0 ? ' works-dot--active' : ''}`}
+          data-works-dot={i}
+          aria-label={`${i + 1}枚目`}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const root = document.getElementById('worksGallery');
+  if (root) {
+    const slides = Array.from(root.querySelectorAll('.works-slide'));
+    const dots = Array.from(root.querySelectorAll('.works-dot'));
+    let cur = 0;
+    let timer: ReturnType<typeof setInterval> | null = null;
+
+    function show(n: number) {
+      slides[cur].classList.remove('works-slide--active');
+      dots[cur].classList.remove('works-dot--active');
+      cur = (n + slides.length) % slides.length;
+      slides[cur].classList.add('works-slide--active');
+      dots[cur].classList.add('works-dot--active');
+    }
+    function auto() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(() => show(cur + 1), 4000);
+    }
+
+    root.querySelector('[data-works-prev]')?.addEventListener('click', () => {
+      show(cur - 1);
+      auto();
+    });
+    root.querySelector('[data-works-next]')?.addEventListener('click', () => {
+      show(cur + 1);
+      auto();
+    });
+    dots.forEach((d, i) =>
+      d.addEventListener('click', () => {
+        show(i);
+        auto();
+      })
+    );
+    auto();
+  }
+</script>

@@ -1,0 +1,17 @@
+---
+import { img } from '@/config/site';
+---
+<nav id="main-nav">
+  <a class="nav-logo" href="/" aria-label="Shizuoka ShutterBugs ホーム">
+    <img
+      src={img('brand/logo.png')}
+      alt="Shizuoka ShutterBugs ロゴ"
+      width="28"
+      height="28"
+      style="width:28px; height:28px; vertical-align:middle; margin-right:6px; border-radius:50%;"
+    /><span class="logo-s">S</span><span class="logo-s2">S</span><span class="logo-b">B</span>
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+    <span></span><span></span><span></span>
+  </button>
+</nav>

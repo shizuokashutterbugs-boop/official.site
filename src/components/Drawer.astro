@@ -1,0 +1,39 @@
+---
+import { NAV } from '@/config/site';
+---
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<div class="drawer" id="drawer">
+  <p class="drawer-label">Navigation</p>
+  <ul class="drawer-nav">
+    {
+      NAV.map((item) =>
+        'children' in item ? (
+          <li class="nav-has-sub">
+            <button class="nav-about-btn" aria-expanded="false">
+              {item.label} <span class="about-chevron">→</span>
+            </button>
+            <ul class="nav-sub">
+              <div class="nav-sub-inner">
+                {item.children.map((c) => (
+                  <li>
+                    <a href={c.href}>
+                      {c.label} <span class="arrow">→</span>
+                    </a>
+                  </li>
+                ))}
+                <li class="nav-sub-spacer" />
+              </div>
+            </ul>
+          </li>
+        ) : (
+          <li>
+            <a href={item.href}>
+              {item.label} <span class="arrow">→</span>
+            </a>
+          </li>
+        )
+      )
+    }
+  </ul>
+  <div class="drawer-footer">© 2025 Shizuoka ShutterBugs</div>
+</div>
