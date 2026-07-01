@@ -26,7 +26,7 @@ const orgJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: SITE.name,
-  alternateName: SITE.shortName,
+  alternateName: SITE.alternateNames,
   url: SITE.url,
   logo: new URL('/apple-touch-icon.png', SITE.url).href,
   foundingDate: SITE.founded,

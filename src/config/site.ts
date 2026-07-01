@@ -10,12 +10,15 @@ export function img(p: string): string {
 export const SITE = {
   name: 'Shizuoka ShutterBugs',
   shortName: 'SSB',
+  nickname: 'しずばぐ',
+  // 検索エンジン・構造化データ向けの表記ゆれ（略称・愛称・スペース無し表記）
+  alternateNames: ['SSB', 'しずばぐ', 'ShizuokaShutterBugs'],
   url: 'https://shizuoka-shutterbugs.com',
   locale: 'ja_JP',
   founded: '2023-06-01',
   area: '静岡県',
   defaultDescription:
-    '静岡で写真を楽しむ人たちが集まる写真コミュニティ「Shizuoka ShutterBugs」。フォトウォーク・写真展・オンライン交流を通じて、静岡のフォトグラファーがエリアを超えてつながります。',
+    '静岡で写真を楽しむ人たちが集まる写真コミュニティ「Shizuoka ShutterBugs（しずばぐ）」。フォトウォーク・写真展・オンライン交流を通じて、静岡の写真サークル・フォトグラファーがエリアを超えてつながります。',
   ogImage: '/images/hero/hero-01.webp',
   twitter: '@shizu_bug',
 } as const;

@@ -12,6 +12,7 @@
     "images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
+    "@astrojs/sitemap": "3.2.1",
     "astro": "^4.16.18"
   },
   "devDependencies": {
