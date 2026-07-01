@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 // 本番URL。OGP/canonical/sitemap生成に使用する。
 export default defineConfig({
@@ -7,4 +8,5 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  integrations: [sitemap()],
 });
