@@ -18,7 +18,7 @@ export const SITE = {
   founded: '2023-06-01',
   area: '静岡県',
   defaultDescription:
-    '静岡で写真を楽しむ人たちが集まる写真コミュニティ「Shizuoka ShutterBugs（しずばぐ）」。フォトウォーク・写真展・オンライン交流を通じて、静岡の写真サークル・フォトグラファーがエリアを超えてつながります。',
+    'Shizuoka ShutterBugs（しずばぐ）は、静岡で写真を撮る人たちが集まり、フォトウォークや写真集会、オンライン交流などを通して、写真を楽しみ追求する写真サークル・写真コミュニティです。',
   ogImage: '/images/hero/hero-01.webp',
   twitter: '@shizu_bug',
 } as const;
